@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Birthday! 🎉</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap');
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            height: 100dvh;
+            overflow: hidden;
+            font-family: 'Kanit', sans-serif;
+            background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .bg-balloon {
+            position: absolute;
+            bottom: -60px;
+            font-size: 28px;
+            animation: bgFloatUp 6s linear infinite;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.6;
+        }
+
+        @keyframes bgFloatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.7; }
+            80% { opacity: 0.7; }
+            100% { transform: translateY(-110vh) rotate(25deg); opacity: 0; }
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            border-radius: 28px;
+            padding: 25px 20px;
+            width: 88vw;
+            max-width: 380px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            animation: fadeIn 0.4s ease-out;
+            position: relative;
+            z-index: 10;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.92); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .page { display: none; }
+        .page.active { display: block; }
+
+        h1 { font-size: 21px; color: #333; margin-bottom: 8px; }
+        p { font-size: 14px; color: #666; margin-bottom: 15px; line-height: 1.5; }
+
+        .sticker {
+            width: 110px;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin: 0 auto 12px auto;
+            display: block;
+        }
+
+        .btn {
+            padding: 11px 24px;
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Kanit', sans-serif;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .btn:active { transform: scale(0.95); }
+
+        .btn-primary { background: #4facfe; color: white; }
+        .btn-pink { background: #ff758c; color: white; }
+        .btn-gray { background: #e0e0e0; color: #555; }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            position: relative;
+            min-height: 48px;
+        }
+
+        .run-btn {
+            position: absolute;
+            transition: transform 0.15s ease-out;
+        }
+
+        .gift-box {
+            font-size: 75px;
+            cursor: pointer;
+            display: inline-block;
+            animation: bounce 1.5s infinite ease-in-out;
+            margin: 10px 0;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.15));
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .birthday-card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 15px;
+            border: 2px dashed #ff758c;
+            margin-top: 10px;
+            text-align: left;
+            animation: popUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-height: 170px;
+            overflow-y: auto;
+        }
+
+        @keyframes popUp {
+            from { opacity: 0; transform: translateY(20px) scale(0.8); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .popup-balloon {
+            position: absolute;
+            bottom: -50px;
+            font-size: 30px;
+            animation: floatUp 4s linear forwards;
+            pointer-events: none;
+            z-index: 99;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-110vh) rotate(20deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="bg-balloons-container"></div>
+
+    <div class="card">
+        <!-- หน้า 1 -->
+        <div id="page1" class="page active">
+            <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3ZGdyZHZscmdlZDg0amwwMjRmeG1taWtlMDdrYTZ2OWNsOXFraTNqdiZlcD12MV9zdGlja2Vyc19yZWxhdGVkJmN0PXM/L5h7PM2vd2hCiyuURc/giphy.gif" alt="sticker" class="sticker">
+            <h1>มีอะไรจะให้...</h1>
+            <p>ลองกดปุ่มด้านล่างเลยย</p>
+            <button class="btn btn-primary" onclick="showPage('page2')">กดเลยยย 🎁</button>
+        </div>
+
+        <!-- หน้า 2 -->
+        <div id="page2" class="page">
+            <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3MWs1bnh0aXczMnR0YjR1Y25zdW9jcnRyaDNyZ3M1ZjFxenA2MGRhaiZlcD12MV9zdGlja2Vyc19yZWxhdGVkJmN0PXM/jy0C263rVWtIwrd57e/giphy.gif" alt="sticker" class="sticker">
+            <h1 style="margin-bottom: 20px;">ช่วงนี้เหนื่อยม้ายย?</h1>
+            <div class="btn-group">
+                <button class="btn btn-pink" onclick="showPage('page3')">เหนื่อยยย</button>
+                <button class="btn btn-gray" onclick="showPage('page2_5')">ม่ายอ่ะ ✨</button>
+            </div>
+        </div>
+
+        <!-- หน้า 2.5 -->
+        <div id="page2_5" class="page">
+            <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3cXZrejk3aDVxc3FvNmhtZjk1dzV0bzczZHBkcTh0cDJ3c2c1dXBkaCZlcD12MV9zdGlja2Vyc19yZWxhdGVkJmN0PXM/vblaS9GDEkB9SoErM0/giphy.gif" alt="sticker" class="sticker">
+            <h1>จริงอ่าา5555</h1>
+            <p>ม่ายเชื่อ!</p>
+            <div class="btn-group" style="align-items: center;">
+                <button class="btn btn-pink" onclick="showPage('page4')">ม่ายย</button>
+                <button class="btn btn-gray run-btn" id="troll-btn" onmouseover="moveBtn()" onclick="moveBtn()">จริงง</button>
+            </div>
+        </div>
+
+        <!-- หน้า 3 -->
+        <div id="page3" class="page">
+            <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3MWs1bnh0aXczMnR0YjR1Y25zdW9jcnRyaDNyZ3M1ZjFxenA2MGRhaiZlcD12MV9zdGlja2Vyc19yZWxhdGVkJmN0PXM/suHUYqFgwVJScKanmN/giphy.gif" alt="sticker" class="sticker">
+            <h1>เก่งแล้ววว!</h1>
+            <p> สู้ๆคับบ! 🫂✨</p>
+            <button class="btn btn-pink" onclick="showPage('page4')">ไปดูของขวัญกันน 🎁</button>
+        </div>
+
+        <!-- หน้า 4 -->
+        <div id="page4" class="page">
+            <div id="before-open">
+                <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3aWNkZXRpMTZtcXhtcnVoZXozdGlnZWdvODF1aXR4ZGpld2ozajRvbyZlcD12MV9zdGlja2Vyc19yZWxhdGVkJmN0PXM/MqQcA7E1JvCvfKZ0HU/giphy.gif" alt="sticker" class="sticker">
+                <h1>Happy Birthday! 🎉</h1>
+                <p>เปิดกล่องของขวัญเลยย!</p>
+                <div class="gift-box" onclick="openGift()">🎁</div>
+            </div>
+
+            <div id="after-open" style="display: none;">
+                <h1 style="color: #ff758c; font-size: 19px;">🎂 สุขสันต์วันเกิด ✨</h1>
+                <div class="birthday-card">
+                    <p style="color: #444; font-size: 14px; margin-bottom: 0;">
+                        <span id="typed-text"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const bgContainer = document.getElementById('bg-balloons-container');
+        const balloonSymbols = ['🎈', '💖', '⭐', '✨', '🔵', '🌸'];
+        setInterval(() => {
+            let b = document.createElement('div');
+            b.className = 'bg-balloon';
+            b.innerText = balloonSymbols[Math.floor(Math.random() * balloonSymbols.length)];
+            b.style.left = Math.random() * 95 + 'vw';
+            b.style.animationDuration = (4 + Math.random() * 4) + 's';
+            bgContainer.appendChild(b);
+            setTimeout(() => b.remove(), 7000);
+        }, 500);
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        function moveBtn() {
+            const btn = document.getElementById('troll-btn');
+            const x = Math.random() * 160 - 80;
+            const y = Math.random() * 160 - 80;
+            btn.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        const textToType = "สุขสันต์วันเกิดคับ! 🎂💖\nขอให้มีความสุขมากๆ  สุขภาพดีไม่เจ็บไม่ป่วยน้าา \nทำอะไรก็ขอให้ราบรื่น  สมหวังในทุกๆอย่างที่ตั้งใจไว้ นะคับ! ✨";
+
+        function openGift() {
+            document.getElementById('before-open').style.display = 'none';
+            document.getElementById('after-open').style.display = 'block';
+
+            confetti({
+                particleCount: 100,
+                spread: 80,
+                origin: { y: 0.6 }
+            });
+
+            const popBalloons = ['🎈', '🔴', '🟡', '🔵', '💖', '✨'];
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    let pb = document.createElement('div');
+                    pb.className = 'popup-balloon';
+                    pb.innerText = popBalloons[Math.floor(Math.random() * popBalloons.length)];
+                    pb.style.left = (Math.random() * 80 + 10) + 'vw';
+                    pb.style.animationDuration = (3 + Math.random() * 2) + 's';
+                    document.body.appendChild(pb);
+
+                    setTimeout(() => pb.remove(), 4000);
+                }, i * 150);
+            }
+
+            let i = 0;
+            function typeWriter() {
+                if (i < textToType.length) {
+                    let char = textToType.charAt(i);
+                    if (char === '\n') {
+                        document.getElementById("typed-text").innerHTML += '<br>';
+                    } else {
+                        document.getElementById("typed-text").innerHTML += char;
+                    }
+                    i++;
+                    setTimeout(typeWriter, 40);
+                }
+            }
+            typeWriter();
+        }
+    </script>
+</body>
+</html>
